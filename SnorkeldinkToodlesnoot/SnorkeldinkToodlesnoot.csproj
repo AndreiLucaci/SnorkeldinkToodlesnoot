@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{64C42732-4249-4956-8D48-CA13CCBF6588}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SnorkeldinkToodlesnoot</RootNamespace>
     <AssemblyName>SnorkeldinkToodlesnoot</AssemblyName>
@@ -29,6 +29,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -42,7 +45,7 @@
   <ItemGroup>
     <Compile Include="Bot\BotParser.cs" />
     <Compile Include="Bot\BotState.cs" />
-    <Compile Include="Bot\LightBot.cs" />
+    <Compile Include="Bot\AwesomeBot.cs" />
     <Compile Include="Field\Field.cs" />
     <Compile Include="Field\Point.cs" />
     <Compile Include="Move\Move.cs" />

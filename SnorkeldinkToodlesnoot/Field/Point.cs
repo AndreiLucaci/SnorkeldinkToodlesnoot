@@ -1,4 +1,4 @@
-﻿namespace LightRidersBot.Field
+﻿namespace SnorkeldinkToodlesnoot.Field
 {
     public class Point
     {

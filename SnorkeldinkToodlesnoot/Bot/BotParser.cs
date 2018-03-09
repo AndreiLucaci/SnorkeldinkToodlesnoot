@@ -1,13 +1,15 @@
 ﻿using System;
-using LightRidersBot.Move;
+using SnorkeldinkToodlesnoot.Bot;
+using SnorkeldinkToodlesnoot.Move;
+using SnorkeldinkToodlesnoot.Player;
 
 namespace LightRidersBot.Bot
 {
     public class BotParser
     {
-        private readonly LightBot _bot;
+        private readonly AwesomeBot _bot;
         private readonly BotState _currentState;
-        public BotParser(LightBot bot)
+        public BotParser(AwesomeBot bot)
         {
             _bot = bot;
             _currentState = new BotState();
@@ -61,7 +63,7 @@ namespace LightRidersBot.Bot
                     case "player_names":
                         var playerNames = value.Split(',');
                         foreach (var playerName in playerNames)
-                            _currentState.Players.Add(playerName, new Player.Player(playerName));
+                            _currentState.Players.Add(playerName, new Player(playerName));
                         break;
                     case "your_bot":
                         _currentState.MyName = value;

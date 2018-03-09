@@ -1,4 +1,4 @@
-﻿namespace LightRidersBot.Player
+﻿namespace SnorkeldinkToodlesnoot.Player
 {
     public class Player
     {

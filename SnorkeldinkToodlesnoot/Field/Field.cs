@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LightRidersBot.Field
+namespace SnorkeldinkToodlesnoot.Field
 {
     public class Field
     {
@@ -9,6 +9,7 @@ namespace LightRidersBot.Field
         public int Height { get; set; }
         public string[][] FieldPositions { get; set; }
         public Point MyPosition { get; private set; }
+        public Point EnemyPosition { get; set; }
 
         public void InitField()
         {
@@ -52,6 +53,11 @@ namespace LightRidersBot.Field
                 if (FieldPositions[x][y].Equals(MyId.ToString()))
                 {
                     MyPosition = new Point(x, y);
+                }
+
+                if (value != MyId.ToString() && value != "x" && value != ".")
+                {
+                    EnemyPosition = new Point(x, y);
                 }
 
                 if (++x == Width)
