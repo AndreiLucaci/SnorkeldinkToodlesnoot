@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using SnorkeldinkToodlesnoot.Field;
 using SnorkeldinkToodlesnoot.Helper;
@@ -16,7 +17,7 @@ namespace SnorkeldinkToodlesnoot.Bot
         {
             var depth = 1;
 
-            var move = MoveType.Pass;
+            var move = MoveType.None;
 
             _starTime = DateTime.Now;
             _maxTimePerRound = state.TimePerMove;
@@ -31,12 +32,26 @@ namespace SnorkeldinkToodlesnoot.Bot
                     move = tuple.Item2;
                 }
             }
-            catch (Exception ex)
+            catch (ElapsedTimeException)
             {
-                return new Move.Move(move == MoveType.Pass
-                    ? MoveType.Pass//GetAvailableMoves(state.Field.MyPosition, state.Field).First().Item2
-                    : move);
-                //return new Move.Move(;
+                var moves = GetAvailableMoves(state.Field.MyPosition, state.Field);
+
+                var enumerable = moves as Tuple<Point, MoveType>[] ?? moves.ToArray();
+                if (move != MoveType.None)
+                {
+                    return new Move.Move(move);
+                }
+
+                var el = enumerable.FirstOrDefault();
+                if (el != null)
+                {
+                    return new Move.Move(el.Item2);
+                }
+                return new Move.Move(MoveType.Pass);
+            }
+            catch (Exception)
+            {
+                return new Move.Move(MoveType.Pass);
             }
         }
 
@@ -155,7 +170,7 @@ namespace SnorkeldinkToodlesnoot.Bot
                     var their = FillForm(field, field.EnemyPosition);
 
                     result = 12 + Decimal.ToInt32(Convert.ToDecimal(Math.Abs(mine.Count - their.Count)) /
-                                                  Convert.ToDecimal(Math.Max(mine.Count, their.Count)) * 86);
+                                                  Convert.ToDecimal(Math.Max(mine.Count, their.Count) * 86));
 
                     if (their.Count > mine.Count)
                     {
@@ -180,30 +195,33 @@ namespace SnorkeldinkToodlesnoot.Bot
         private int ComputePlayerValue(Field.Field field, Point player) => (player.Equals(field.MyPosition) ? 1 : 2);
 
 
-        public Tuple<decimal, MoveType> AlphaBeta(Field.Field field, int depth, decimal alpha, decimal beta, string player, MoveType bestMovetype = MoveType.Pass)
+        public Tuple<decimal, MoveType> AlphaBeta(Field.Field field, int depth, decimal alpha, decimal beta, string player, MoveType bestMovetype = MoveType.None)
         {
             var moves = field.Moves(player).Select(i => i.Key).ToList();
+
+            //Console.Error.WriteLine($"update Curent-depth-{depth}");
 
             if (depth == 0 || moves.Count == 0)
             {
                 alpha = Evaluate(field, field.GetByPlayerId(player));
-                return Tuple.Create(alpha, MoveType.Pass);
+                return Tuple.Create(alpha, MoveType.None);
             }
 
             moves = OrderByClosness(field, new Point(field.Height / 2, field.Width / 2), moves);
             moves = OrderByClosness(field, field.EnemyPosition, moves);
 
-            if (bestMovetype != MoveType.Pass)
+            if (bestMovetype != MoveType.None)
             {
                 moves.Remove(bestMovetype);
                 moves.Insert(0, bestMovetype);
             }
 
-            var bestMove = moves.Count > 0 ? moves[0] : MoveType.Pass;
+            var bestMove = moves.Count > 0 ? moves[0] : MoveType.None;
 
             foreach (var move in moves)
             {
                 CheckTime();
+
                 field.MoveForth(move, player);
                 var val = -AlphaBeta(field, depth - 1, -beta, -alpha, field.EnId).Item1;
                 field.MoveBack(move, player);
@@ -219,13 +237,12 @@ namespace SnorkeldinkToodlesnoot.Bot
                 }
             }
 
-            decimal suicideVal = -11 * ComputePlayerValue(field, player);
+            decimal suicideVal = -11 * (ComputePlayerValue(field, player) + 1);
             if (suicideVal > alpha)
             {
                 foreach (var direction in field.Directions)
                 {
-                    var playerValue = field.Get(field.Rel(direction, field.Origin(player)));
-                    if (playerValue == field.MyId || playerValue == field.EnId)
+                    if (player == field.MyId || player == field.EnId)
                     {
                         return Tuple.Create(suicideVal, direction);
                     }
@@ -291,7 +308,7 @@ namespace SnorkeldinkToodlesnoot.Bot
         {
             var validMoves = DetermineMoves(point, field.Width, field.Height);
 
-            return validMoves.Where(i => field.GetValue(point).Free());
+            return validMoves.Where(i => field.GetValue(i.Item1).Free());
         }
 
         private IEnumerable<Tuple<Point, MoveType>> DetermineMoves(Point point, int width, int height)

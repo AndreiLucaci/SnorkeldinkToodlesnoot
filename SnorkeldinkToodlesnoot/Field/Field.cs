@@ -90,7 +90,7 @@ namespace SnorkeldinkToodlesnoot.Field
             return possible.Where(i => Passable(possible[i.Key])).ToDictionary(i => i.Key, i => i.Value);
         }
 
-        public IEnumerable<Point> Adjacent(Point point)
+        public IEnumerable<Point> Adjacent(Point point = null)
         {
             return Directions.Select(i => Rel(i, point)).ToList();
         }
@@ -117,8 +117,25 @@ namespace SnorkeldinkToodlesnoot.Field
             {
                 return new Point(origin.X, origin.Y + 1);
             }
+            //if (direction == MoveType.Down)
+            //{
+            //    return new Point(origin.X, origin.Y - 1);
+            //}
+            //if (direction == MoveType.Right)
+            //{
+            //    return new Point(origin.X + 1, origin.Y);
+            //}
+            //if (direction == MoveType.Left)
+            //{
+            //    return new Point(origin.X -1, origin.Y);
+            //}
+            //if (direction == MoveType.Up)
+            //{
+            //    return new Point(origin.X, origin.Y + 1);
+            //}
 
-            return new Point(origin.X, origin.Y);
+            return origin;
+            //throw new Exception("Invlid move");
         }
 
         public Point Origin(string id) => id == MyId ? MyPosition : EnemyPosition;
