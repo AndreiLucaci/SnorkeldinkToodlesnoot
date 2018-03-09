@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnorkeldinkToodlesnoot", "SnorkeldinkToodlesnoot.csproj", "{64C42732-4249-4956-8D48-CA13CCBF6588}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "..\tests\Tests.csproj", "{756F0C4E-B572-4741-BFD1-B1F1EAAB69F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{64C42732-4249-4956-8D48-CA13CCBF6588}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64C42732-4249-4956-8D48-CA13CCBF6588}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64C42732-4249-4956-8D48-CA13CCBF6588}.Release|Any CPU.Build.0 = Release|Any CPU
+		{756F0C4E-B572-4741-BFD1-B1F1EAAB69F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{756F0C4E-B572-4741-BFD1-B1F1EAAB69F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{756F0C4E-B572-4741-BFD1-B1F1EAAB69F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{756F0C4E-B572-4741-BFD1-B1F1EAAB69F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
