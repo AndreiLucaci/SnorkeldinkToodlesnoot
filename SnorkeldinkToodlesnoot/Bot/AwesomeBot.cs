@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using SnorkeldinkToodlesnoot.Field;
@@ -10,14 +9,17 @@ namespace SnorkeldinkToodlesnoot.Bot
 {
     public class AwesomeBot
     {
-        private bool _separated = false;
-
+        private DateTime _starTime;
+        private int _maxTimePerRound;
 
         public Move.Move DoMove(BotState state)
         {
             var depth = 1;
 
             var move = MoveType.Pass;
+
+            _starTime = DateTime.Now;
+            _maxTimePerRound = state.TimePerMove;
 
             try
             {
@@ -29,9 +31,22 @@ namespace SnorkeldinkToodlesnoot.Bot
                     move = tuple.Item2;
                 }
             }
-            catch (ElapsedTimeException)
+            catch (Exception ex)
             {
-                return move != MoveType.Pass ? new Move.Move(move) : new Move.Move(MoveType.Up);
+                return new Move.Move(move == MoveType.Pass
+                    ? MoveType.Pass//GetAvailableMoves(state.Field.MyPosition, state.Field).First().Item2
+                    : move);
+                //return new Move.Move(;
+            }
+        }
+
+        private void CheckTime()
+        {
+            var now = DateTime.Now;
+            var elapsed = now.Subtract(_starTime);
+            if ( _maxTimePerRound * 0.90 - elapsed.TotalMilliseconds < 0)
+            {
+                throw new ElapsedTimeException();
             }
         }
 
@@ -188,7 +203,7 @@ namespace SnorkeldinkToodlesnoot.Bot
 
             foreach (var move in moves)
             {
-                // TODO: check elapsed time
+                CheckTime();
                 field.MoveForth(move, player);
                 var val = -AlphaBeta(field, depth - 1, -beta, -alpha, field.EnId).Item1;
                 field.MoveBack(move, player);
@@ -245,10 +260,10 @@ namespace SnorkeldinkToodlesnoot.Bot
             }
             if (dx < 0)
             {
-                if (a == MoveType.Right) return 1;
-                if (b == MoveType.Right) return -1;
-                if (a == MoveType.Left) return -1;
-                if (b == MoveType.Left) return 1;
+                if (a == MoveType.Right) return -1;
+                if (b == MoveType.Right) return 1;
+                if (a == MoveType.Left) return 1;
+                if (b == MoveType.Left) return -1;
             }
             return 0;
         }

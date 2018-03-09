@@ -115,9 +115,10 @@ namespace SnorkeldinkToodlesnoot.Field
             }
             if (direction == MoveType.Down)
             {
-                return  new Point(origin.X, origin.Y + 1);
+                return new Point(origin.X, origin.Y + 1);
             }
-            throw new Exception("Not valid");
+
+            return new Point(origin.X, origin.Y);
         }
 
         public Point Origin(string id) => id == MyId ? MyPosition : EnemyPosition;
