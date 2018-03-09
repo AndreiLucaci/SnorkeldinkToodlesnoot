@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace LightRidersBot.Bot
+namespace SnorkeldinkToodlesnoot.Bot
 {
     public class BotState
     {

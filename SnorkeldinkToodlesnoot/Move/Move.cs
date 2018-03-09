@@ -1,4 +1,4 @@
-﻿namespace LightRidersBot.Move
+﻿namespace SnorkeldinkToodlesnoot.Move
 {
     public class Move
     {

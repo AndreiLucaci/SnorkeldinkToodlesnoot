@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace LightRidersBot.Move
+namespace SnorkeldinkToodlesnoot.Move
 {
     public enum MoveType
     {
