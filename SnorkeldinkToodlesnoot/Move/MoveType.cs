@@ -9,7 +9,8 @@ namespace SnorkeldinkToodlesnoot.Move
         Down,
         Left,
         Right,
-        Pass
+        Pass,
+        None
     }
 
     public static class MoveHelper

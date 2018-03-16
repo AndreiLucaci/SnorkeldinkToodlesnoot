@@ -70,7 +70,7 @@ namespace LightRidersBot.Bot
                         break;
                     case "your_botid":
                         int myId = int.Parse(value);
-                        _currentState.Field.MyId = myId;
+                        _currentState.Field.MyId = myId.ToString();
                         break;
                     case "field_width":
                         _currentState.Field.Width = int.Parse(value);

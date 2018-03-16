@@ -43,11 +43,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bot\BotConstants.cs" />
     <Compile Include="Bot\BotParser.cs" />
     <Compile Include="Bot\BotState.cs" />
     <Compile Include="Bot\AwesomeBot.cs" />
+    <Compile Include="Bot\ElapsedTimeException.cs" />
     <Compile Include="Field\Field.cs" />
     <Compile Include="Field\Point.cs" />
+    <Compile Include="Helper\HashSetExtensions.cs" />
+    <Compile Include="Helper\ListExtensions.cs" />
+    <Compile Include="Helper\StringExtensions.cs" />
     <Compile Include="Move\Move.cs" />
     <Compile Include="Move\MoveType.cs" />
     <Compile Include="Player\Player.cs" />
